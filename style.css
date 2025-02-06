@@ -8,10 +8,11 @@
 .testcolor{
     background-color: rgb(190, 185, 185);
     padding: 10px;
+    
 }
 #hello{
     text-align: center;
-    background-color: rgb(14, 14, 70);
+    background-color: red;
     padding: 10px;
     color: white;
 }
@@ -23,7 +24,7 @@ select{
     font-size: 15px;
 }
 input{
-    padding: 3px 10px;
+    padding: 3px 16px;
     font-size: 15px;
 }
  #hellotask{
@@ -48,6 +49,7 @@ input{
 .box{
     background-color: white;
     padding: 10px;
+    border-radius: 20px;
 }
 
 
