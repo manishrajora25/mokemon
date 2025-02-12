@@ -3,17 +3,17 @@ const nameData = document.querySelector("#hellotask");
 const SelectBox = document.querySelector("#SelectBox");
 const input = document.querySelector("#input")
 
+const addbtn = document.querySelector("#addbtn")
+
 let url= "https://pokeapi.co/api/v2/pokemon?limit=21&offset=0"
 
-//let url = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0";
 
-//https://pokeapi.co/api/v2/type/?limit=21
 
 window.addEventListener("load", async () => {
     const pokemonData = await loadPokemon(url);
     console.log(pokemonData);
     appendImage(pokemonData); 
-    appendOptions(pokemonData); 
+    appendOptions(pokemonData);
     addDropdownListener(pokemonData); 
     addSearchListener(pokemonData);
 });
@@ -42,23 +42,23 @@ function appendImage(data) {
         heading.innerText = pokemon.name;
 
         const para = document.createElement("p");
-        para.innerText = pokemon.types[0].type.name;
+        para.innerText = pokemon.types.map(typeinfo => typeinfo.type.name).join(", ")
 
         parent.append(image, heading, para);
         nameData.append(parent);
     });
 }
 function appendOptions(data) {
-    const uniqueTypes = [];
+    const uniTypes = [];
     data.forEach((pokemon) => {
         pokemon.types.forEach((type) => {
-            uniqueTypes.push(type.type.name);
+            uniTypes.push(type.type.name);
             //console.log(data)
-        });
+        }); 
     });
     SelectBox.innerHTML = "<option value=''>Select a Pokemon Type</option>";
 
-    uniqueTypes.forEach((type) => {
+    uniTypes.forEach((type) => {
         const option = document.createElement("option");
         option.value = type; 
         option.innerText = type; 
@@ -89,6 +89,40 @@ function addSearchListener(data) {
         appendImage(filteredPokemons);
     });
 }
+
+
+
+addbtn.addEventListener("click", loadMorePokemons);
+
+async function loadMorePokemons() {
+    offset = limit+offset;
+    let newUrl = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=${offset}";
+    const newPokemonData = await loadpokimon(newUrl);
+    
+    allPokemonDetails = allPokemonDetails.concat(newPokemonData);
+    showPokemon(allPokemonDetails);
+
+}
+
+
+
+addbtn.addEventListener("click", () => {
+    setTimeout(loadMorePokemons, 3000);
+});
+
+async function loadMorePokemons() {
+    offset += 20;
+    let newUrl = `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${offset}`;
+    const newPokemonData = await loadPokemon(newUrl); 
+    
+    allPokemonDetails = allPokemonDetails.concat(newPokemonData);
+    appendImage(allPokemonDetails); 
+}
+
+
+
+
+
 
 
 
